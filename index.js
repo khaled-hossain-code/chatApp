@@ -26,6 +26,10 @@ app.get('/admin/rooms', (req, res, next) => {
     });
 });
 
+app.get('/admin/rooms/add', (req, res, next) => {
+    res.render("add");
+});
+
 server.listen(3000, () => {
     console.log("server on port 3000 running");
 });
