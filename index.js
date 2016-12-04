@@ -6,6 +6,8 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 
+var rooms = require("./data/rooms.json");
+
 //pug & ejs does not require to call explicitely, express does it internally
 app.set("views", "./views");
 app.set("view engine", "pug");
@@ -18,7 +20,10 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/admin/rooms', (req, res, next) => {
-    res.render("rooms", { title: "Admin Rooms"});
+    res.render("rooms", { 
+        title: "Admin Rooms",
+        rooms: rooms
+    });
 });
 
 server.listen(3000, () => {
