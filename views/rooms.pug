@@ -1,0 +1,21 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Chat
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='../style.css')
+  body
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        #navbar.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li.active
+              a(href='/') Home
+            li
+              a(href='/admin/rooms.html') Chat Rooms
+            li
+              a(href='/admin/users') Users
+    .container
+      .main-content
+        h1 Hello from Chatroom PUG:
