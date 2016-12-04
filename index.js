@@ -8,16 +8,17 @@ const server = http.createServer(app);
 
 //pug & ejs does not require to call explicitely, express does it internally
 app.set("views", "./views");
+app.set("view engine", "pug");
 
 app.use(express.static('public'));
 app.use(express.static("node_modules/bootstrap/dist"));
 
 app.get('/', (req, res, next) => {
-    res.render("index.pug", { title: "Home"});
+    res.render("index", { title: "Home"});
 });
 
 app.get('/admin/rooms', (req, res, next) => {
-    res.render("rooms.pug", { title: "Admin Rooms"});
+    res.render("rooms", { title: "Admin Rooms"});
 });
 
 server.listen(3000, () => {
