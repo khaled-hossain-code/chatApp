@@ -4,17 +4,22 @@ const _ = require("lodash");
 var rooms = require("../data/rooms.json");
 const adminRouter = express.Router();
 
+adminRouter.use((req, res, next)=>{
+    res.locals.admin = req.baseUrl;
+    next();
+});
+
 adminRouter.get('/rooms', (req, res, next) => {
-    res.render("rooms", { 
+    res.render("rooms", {
         title: "Admin Rooms",
         rooms: rooms,
-        admin : req.baseUrl
+        admin: req.baseUrl
     });
 });
 
 adminRouter.route('/rooms/add')
     .get((req, res, next) => {
-        res.render("add",{admin:req.baseUrl});
+        res.render("add");
     })
     .post((req, res, next) => {
         const room = {
@@ -22,50 +27,45 @@ adminRouter.route('/rooms/add')
             id: uuid.v4()
         };
 
-        if(!room){
+        if (!room) {
             res.sendStatus(404);
         }
 
         rooms.push(room);
-        res.redirect(req.baseUrl +"/rooms");
-   });
+        res.redirect(req.baseUrl + "/rooms");
+    });
 
 adminRouter.route('/rooms/edit/:roomId')
-  .get( (req, res, next) => {
-    const roomId = req.params.roomId;
-    var room = _.find( rooms, (room) => {
-        return roomId === room.id
-    });
+    .all((req, res, next) => {
+        const roomId = req.params.roomId;
+        var room = _.find(rooms, (room) => {
+            return roomId === room.id
+        });
 
-    if(!room){
-        res.sendStatus(404);
-    }
+        if (!room) {
+            res.sendStatus(404);
+        }
 
-    res.render("edit",{room,admin:req.baseUrl});
+        res.locals.room = room;
+        next();
     })
-  .post( (req, res, next) => {
-    const roomId = req.params.roomId;
-    const roomName = req.body.name;
-    var room = _.find( rooms, (room) => {
-        return roomId === room.id
+    .get((req, res, next) => {
+
+        res.render("edit");
+    })
+    .post((req, res, next) => {
+        res.locals.room.name = req.body.name;
+        res.redirect(req.baseUrl + "/rooms");
     });
-
-    room.name = roomName;
-
-    res.redirect(req.baseUrl +"/rooms");
-});
 
 
 adminRouter.get('/rooms/delete/:roomId', (req, res, next) => {
     const roomId = req.params.roomId;
-    rooms = rooms.filter( (room) => {
+    rooms = rooms.filter((room) => {
         return roomId !== room.id
     });
     res.redirect(req.baseUrl + "/rooms");
 });
-
-
-
 
 
 module.exports = adminRouter;
