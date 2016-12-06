@@ -1,7 +1,8 @@
 extends layout
 
 block content
-    h1 Hello from Chatroom PUG:
+    h1 Chatrooms:
+    a.btn.btn-primary(href="/admin/rooms/add") Click to Add new Chat Room
     table.table.table-striped
       thead
         tr
@@ -10,5 +11,8 @@ block content
       tbody
         each room in rooms
           tr
+            td(style="width:50px;")
+              a(href="/admin/rooms/delete/" + room.id)
+               span.glyphicon.glyphicon-remove
             td= room.name
             td= room.id

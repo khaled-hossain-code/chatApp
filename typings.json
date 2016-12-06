@@ -1,0 +1,7 @@
+{
+  "globalDependencies": {
+    "body-parser": "registry:dt/body-parser#0.0.0+20160619023215",
+    "node-uuid": "registry:dt/node-uuid#0.0.0+20160316155526",
+    "pug": "registry:dt/pug#2.0.0-beta6+20160919072324"
+  }
+}
