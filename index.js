@@ -14,10 +14,11 @@ app.set("view engine", "pug");
 
 app.use(express.static('public'));
 app.use(express.static("node_modules/bootstrap/dist"));
+app.use(express.static("node_modules/jquery/dist"));
 app.use(bodyParser.urlencoded({extended : true}));
 
 app.get('/', (req, res, next) => {
-    res.render("index", { title: "Home"});
+    res.render("home", { title: "Home"});
 });
 
 app.use('/admin',adminRouter);
