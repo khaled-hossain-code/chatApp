@@ -7,13 +7,14 @@ const adminRouter = express.Router();
 adminRouter.get('/rooms', (req, res, next) => {
     res.render("rooms", { 
         title: "Admin Rooms",
-        rooms: rooms
+        rooms: rooms,
+        admin : req.baseUrl
     });
 });
 
 adminRouter.route('/rooms/add')
     .get((req, res, next) => {
-        res.render("add");
+        res.render("add",{admin:req.baseUrl});
     })
     .post((req, res, next) => {
         const room = {
@@ -40,7 +41,7 @@ adminRouter.route('/rooms/edit/:roomId')
         res.sendStatus(404);
     }
 
-    res.render("edit",{room});
+    res.render("edit",{room,admin:req.baseUrl});
     })
   .post( (req, res, next) => {
     const roomId = req.params.roomId;
