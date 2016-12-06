@@ -6,8 +6,7 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const bodyParser = require("body-parser");
-const uuid = require("node-uuid");
-var rooms = require("./data/rooms.json");
+const adminRouter = require("./router/adminRoute");
 
 //pug & ejs does not require to call explicitely, express does it internally
 app.set("views", "./views");
@@ -21,26 +20,7 @@ app.get('/', (req, res, next) => {
     res.render("index", { title: "Home"});
 });
 
-app.get('/admin/rooms', (req, res, next) => {
-    res.render("rooms", { 
-        title: "Admin Rooms",
-        rooms: rooms
-    });
-});
-
-app.get('/admin/rooms/add', (req, res, next) => {
-    res.render("add");
-});
-
-app.post('/admin/rooms/add', (req, res, next) => {
-    const room = {
-        name: req.body.name,
-        id: uuid.v4()
-    };
-
-    rooms.push(room);
-    res.redirect("/admin/rooms");
-});
+app.use('/admin',adminRouter);
 
 server.listen(3000, () => {
     console.log("server on port 3000 running");
