@@ -32,6 +32,15 @@ $(function(){
         });
     });
 
+    $("#delete").click(function(){
+        $.ajax({
+            type: "DELETE",
+            url: "/api/rooms/" + roomId + "/messages"
+        }).done(function(){
+            $("#messages").val("");
+        });
+    });
+
     function getMessages(){
         $.ajax({
             type:"GET",

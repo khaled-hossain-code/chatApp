@@ -49,6 +49,11 @@ roomsApiRouter.route('/:roomId/messages')
     })
     .delete((req, res, next)=>{
 
+        messages = messages.filter( (message)=>{
+            return message.roomId !== res.locals.roomId;
+        });
+
+        res.sendStatus(200);
     });
 
 module.exports = roomsApiRouter;
