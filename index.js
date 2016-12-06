@@ -7,7 +7,7 @@ const http = require('http');
 const server = http.createServer(app);
 const bodyParser = require("body-parser");
 const adminRouter = require("./router/adminRoute");
-
+const roomsApiRouter = require("./api/roomsApi");
 //pug & ejs does not require to call explicitely, express does it internally
 app.set("views", "./views");
 app.set("view engine", "pug");
@@ -22,6 +22,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.use('/admin',adminRouter);
+app.use('/api/rooms', roomsApiRouter);
 
 server.listen(3000, () => {
     console.log("server on port 3000 running");
