@@ -26,7 +26,7 @@ adminRouter.route('/rooms/add')
         }
 
         rooms.push(room);
-        res.redirect("/admin/rooms");
+        res.redirect(req.baseUrl +"/rooms");
    });
 
 adminRouter.route('/rooms/edit/:roomId')
@@ -51,7 +51,7 @@ adminRouter.route('/rooms/edit/:roomId')
 
     room.name = roomName;
 
-    res.redirect("/admin/rooms");
+    res.redirect(req.baseUrl +"/rooms");
 });
 
 
@@ -60,7 +60,7 @@ adminRouter.get('/rooms/delete/:roomId', (req, res, next) => {
     rooms = rooms.filter( (room) => {
         return roomId !== room.id
     });
-    res.redirect("/admin/rooms/");
+    res.redirect(req.baseUrl + "/rooms");
 });
 
 
