@@ -9,8 +9,19 @@ const bodyParser = require("body-parser");
 const adminRouter = require("./router/adminRoute");
 const roomsApiRouter = require("./api/roomsApi");
 const fs = require("fs");
+const FileStreamRotator = require('file-stream-rotator');
 const morgan = require("morgan");
-var accessLogStream = fs.createWriteStream(__dirname+'/access.log',{flags:'a'});
+const logDirectory = __dirname + '/log';
+
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+
+// create a rotating write stream 
+var accessLogStream = FileStreamRotator.getStream({
+  date_format: 'DD.MM.YYYY',
+  filename: logDirectory + '/access-%DATE%.log',
+  frequency: 'daily',
+  verbose: false
+})
 //pug & ejs does not require to call explicitely, express does it internally
 app.set("views", "./views");
 app.set("view engine", "pug");
