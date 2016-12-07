@@ -2,7 +2,8 @@
   {
     "name": "wes",
     "id": "44f885e8-87e9-4911-973c-4074188f408a",
-    "password": "password"
+    "password": "password",
+    "admin": true
   },
   {
     "name": "pax",

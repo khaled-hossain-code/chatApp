@@ -4,6 +4,15 @@ const _ = require("lodash");
 var rooms = require("../data/rooms.json");
 const adminRouter = express.Router();
 
+//restricting unauthorized users
+adminRouter.use((req,res,next)=>{
+    if(req.user.admin){
+        next();
+        return;
+    }
+    res.redirect('/login');
+})
+
 adminRouter.use((req, res, next)=>{
     res.locals.admin = req.baseUrl;
     next();
