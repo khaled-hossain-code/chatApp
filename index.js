@@ -7,23 +7,38 @@ const http = require('http');
 const server = http.createServer(app);
 const bodyParser = require("body-parser");
 const adminRouter = require("./router/adminRoute");
+const loginRouter = require("./router/loginRoute");
 const roomsApiRouter = require("./api/roomsApi");
 const {morgan,accessLogStream} = require("./logger/logger.js");
+const passport = require("passport");
+require("./auth/passport-init.js"); //making sure that passport configuration is executed
 //pug & ejs does not require to call explicitely, express does it internally
 app.set("views", "./views");
 app.set("view engine", "pug");
 
+// **********MiddleWares*********\\
+//logging MiddleWare
 app.use(morgan('combined',{stream:accessLogStream}));
+
+//Serve Static Content Middleware
 app.use(express.static('public'));
 app.use(express.static("node_modules/bootstrap/dist"));
 app.use(express.static("node_modules/jquery/dist"));
+
+//Form Data parsing MiddleWare
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+
+//Authentication Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.get('/', (req, res, next) => {
     res.render("home", { title: "Home"});
 });
 
+app.use('/login', loginRouter);
 app.use('/admin',adminRouter);
 app.use('/api/rooms', roomsApiRouter);
 
