@@ -2,6 +2,7 @@ const express = require("express");
 const roomsApiRouter = express.Router();
 var rooms = require('../data/rooms.json');
 var messages = require('../data/messages.json');
+var users = require('../data/users.json');
 const _ = require('lodash');
 const uuid = require("node-uuid");
 
@@ -13,18 +14,30 @@ roomsApiRouter.route('/')
 roomsApiRouter.route('/:roomId/messages')
     .all( (req, res, next)=>{
       var roomId = req.params.roomId;
-
+      //getting the room object from rooms.json
       var room = _.find(rooms, (room)=>{
           return room.id === roomId;
       });
         
-        if(!room){
+        if(!room){ //if there no room found
             res.sendStatus(404);
         }
-
-      var message = messages.filter( (message)=>{
+    //getting the message for the specific message for the room from messages.json
+      var message = messages
+      .filter( (message)=>{ //filtering only the roomID specific messages 
           return roomId === message.roomId;
       })
+      .map( (m)=>{ //map each message and attach username infront of each message
+          let user = _.find(users, (u)=>{ //find user from users.json
+              return u.id === m.userId; //if the user id matches return user object
+          });
+
+          return { //each message will look like "wes: i am a blogger..."
+              text:`${user.name}: ${m.text}`
+          };
+      });
+
+      //attaching message & room object for further use
         res.locals.room = room;
         res.locals.messages = message;
         res.locals.roomId = roomId;
@@ -40,7 +53,7 @@ roomsApiRouter.route('/:roomId/messages')
         var message = {
             text: req.body.text,
             roomId: res.locals.roomId,
-            userId: "44f885e8-87e9-4911-973c-4074188f408a",
+            userId: req.user.id,
             id: uuid.v4()
         };
 
