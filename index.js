@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const bodyParser = require("body-parser");
 const adminRouter = require("./router/adminRoute");
 const loginRouter = require("./router/loginRoute");
+const logoutRouter = require("./router/logoutRoute");
 const roomsApiRouter = require("./api/roomsApi");
 const {morgan,accessLogStream} = require("./logger/logger.js");
 const session = require('express-session');
@@ -47,6 +48,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 app.use('/admin',adminRouter);
 app.use('/api/rooms', roomsApiRouter);
 

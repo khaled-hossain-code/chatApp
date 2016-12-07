@@ -9,6 +9,6 @@ loginRouter.route('/')
     .post( passport.authenticate('local',{
         successRedirect: '/',
         failureRedirect: '/login'
-    }))
+    }));
 
 module.exports = loginRouter;
