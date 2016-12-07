@@ -4,16 +4,16 @@ const passport = require("passport");
 const users = require("../data/users.json");
 
 loginRouter.route('/')
-    .get((req, res, next)=>{
-        if(req.app.get("env") === "development"){
-            let user = users[0];
-            req.login(user, (err)=>{
-                if(err){
-                    next(err);
-                }
-                return res.redirect('/');
-            });
-        }
+    .get((req, res, next)=>{//uncomment bellow if interested to auto log in as admin
+        // if(req.app.get("env") === "development"){
+        //     let user = users[0];
+        //     req.login(user, (err)=>{
+        //         if(err){
+        //             next(err);
+        //         }
+        //         return res.redirect('/');
+        //     });
+        // }
         res.render('login');
     })
     .post( passport.authenticate('local',{
