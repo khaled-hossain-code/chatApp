@@ -16,6 +16,7 @@
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "express": "^4.14.0",
+    "express-session": "^1.14.2",
     "file-stream-rotator": "0.0.7",
     "jquery": "^3.1.1",
     "lodash": "^4.17.2",

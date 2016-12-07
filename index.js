@@ -10,6 +10,7 @@ const adminRouter = require("./router/adminRoute");
 const loginRouter = require("./router/loginRoute");
 const roomsApiRouter = require("./api/roomsApi");
 const {morgan,accessLogStream} = require("./logger/logger.js");
+const session = require('express-session');
 const passport = require("passport");
 require("./auth/passport-init.js"); //making sure that passport configuration is executed
 //pug & ejs does not require to call explicitely, express does it internally
@@ -28,6 +29,13 @@ app.use(express.static("node_modules/jquery/dist"));
 //Form Data parsing MiddleWare
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+
+//session Middleware
+app.use(session({
+    secret: 'this is a session secret key',
+    resave: false,
+    saveUninitialized: false
+}));
 
 //Authentication Middleware
 app.use(passport.initialize());
