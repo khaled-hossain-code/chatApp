@@ -42,12 +42,21 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+//authenticate is first, protecting all other routes bellow it
+app.use('/login', loginRouter);
 
+//restricting unauthorized users
+app.use((req,res,next)=>{
+    if(req.isAuthenticated()){
+        next();
+        return;
+    }
+    res.redirect('/login');
+})
 app.get('/', (req, res, next) => {
     res.render("home", { title: "Home"});
 });
 
-app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/admin',adminRouter);
 app.use('/api/rooms', roomsApiRouter);
